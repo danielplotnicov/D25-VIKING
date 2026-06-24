@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VIKING Pulse — Automated Booking & Predictive Maintenance for Life Rafts</title>
+  <meta name="description" content="VIKING Pulse connects fleet position, expiring certificates and service-station capacity to auto-book life-raft maintenance at the right harbour — cutting downtime and keeping vessels SOLAS-compliant." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/styles.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%230a2540'/><path d='M8 11h16M8 16h16M8 21h16' stroke='%23ff7a33' stroke-width='2.5' stroke-linecap='round'/></svg>" />
+</head>
+<body>
+
+  <!-- ===================== NAV ===================== -->
+  <header class="nav" id="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="#top">
+        <span class="mark">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M3 7h18M3 12h18M3 17h18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><circle cx="17" cy="7" r="2" fill="#ff7a33"/></svg>
+        </span>
+        VIKING&nbsp;<b>Pulse</b>
+      </a>
+      <nav class="nav-links" id="navLinks">
+        <a href="#problem">Why now</a>
+        <a href="#how">How it works</a>
+        <a href="#features">Platform</a>
+        <a href="#stakeholders">For your team</a>
+        <a href="#impact">Impact</a>
+        <a href="dashboard.html" class="nav-menu-cta nav-menu-demo">Live demo</a>
+        <button class="btn btn-primary nav-menu-cta" data-pilot>Request a pilot</button>
+      </nav>
+      <div class="nav-cta">
+        <a href="dashboard.html" class="btn btn-light" style="padding:10px 16px">Live demo</a>
+        <button class="btn btn-primary" style="padding:10px 18px" data-pilot>Request a pilot</button>
+        <button class="nav-toggle" id="navToggle" aria-label="Menu">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="#0a2540" stroke-width="2.2" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===================== HERO ===================== -->
+  <section class="hero" id="top">
+    <div class="container hero-grid">
+      <div>
+        <span class="hero-badge"><span class="dot"></span> Live across the global VIKING network</span>
+        <h1>The future of <span class="grad">maintenance planning</span> at VIKING.</h1>
+        <p class="lead">
+          VIKING Pulse connects fleet position, expiring certificates and service-station capacity into one
+          platform — then <strong style="color:#fff">auto-books</strong> life-raft servicing at the right harbour,
+          at the right time. Less manual coordination. Zero missed deadlines.
+        </p>
+        <div class="hero-actions">
+          <a href="dashboard.html" class="btn btn-primary">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Explore the live dashboard
+          </a>
+          <a href="#how" class="btn btn-ghost">See how it works</a>
+        </div>
+        <div class="hero-meta">
+          <div><b data-count="280" data-suffix="+">280+</b><span>Service stations</span></div>
+          <div><b data-count="800" data-suffix="+">800+</b><span>Technicians</span></div>
+          <div><b data-count="100" data-suffix="k+">100k+</b><span>Life rafts / year</span></div>
+          <div><b>24/7</b><span>Always-on matching</span></div>
+        </div>
+      </div>
+
+      <!-- Live fleet console -->
+      <div class="console reveal">
+        <div class="console-bar">
+          <i></i><i></i><i></i>
+          <span>pulse · live fleet monitor</span>
+        </div>
+        <div class="map-wrap">
+          <svg viewBox="0 0 520 300" id="heroMap" aria-hidden="true">
+            <!-- stylised continents -->
+            <path class="land" d="M40,120 q30,-40 80,-30 q40,8 60,40 q-10,40 -50,55 q-60,15 -90,-20 z"/>
+            <path class="land" d="M150,70 q60,-30 130,-10 q40,15 30,55 q-50,30 -110,20 q-50,-10 -50,-65 z"/>
+            <path class="land" d="M250,150 q40,-10 60,20 q10,50 -30,80 q-40,15 -55,-25 q-10,-55 25,-75 z"/>
+            <path class="land" d="M360,90 q50,-20 90,5 q25,30 0,60 q-50,25 -90,0 q-25,-40 0,-65 z"/>
+            <path class="land" d="M400,180 q35,-5 45,25 q-5,35 -45,40 q-35,-5 -30,-40 q5,-25 30,-25 z"/>
+            <!-- vessels injected by JS -->
+            <g id="vesselLayer"></g>
+          </svg>
+        </div>
+
+        <div class="float-card fc-1">
+          <div class="fc-top">MV Nordkapp <span class="tag red">Cert expires 9d</span></div>
+          <small>Auto-matched → Esbjerg · 14 Jul, 09:00</small>
+        </div>
+        <div class="float-card fc-2">
+          <div class="fc-top">Booking confirmed <span class="tag green">Scheduled</span></div>
+          <small>Technician slot reserved · bay 3 · 2.5h</small>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== STATS STRIPE ===================== -->
+  <section class="stripe">
+    <div class="container stripe-grid">
+      <div class="s"><b>−38%</b><span>Manual booking admin</span></div>
+      <div class="s"><b>−21%</b><span>Avg. vessel downtime</span></div>
+      <div class="s"><b>0</b><span>Missed SOLAS deadlines</span></div>
+      <div class="s"><b>+14%</b><span>Station utilisation</span></div>
+    </div>
+  </section>
+
+  <!-- ===================== PROBLEM ===================== -->
+  <section class="section" id="problem">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Why now</span>
+        <h2>Maintenance planning today is stuck in silos.</h2>
+        <p>Every VIKING department built its own digital tool, and scheduling is still steered by hand. The result is slow, error-prone and invisible to the customer.</p>
+      </div>
+      <div class="prob-grid">
+        <div class="prob reveal">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="2"/><rect x="14" y="4" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="2"/><rect x="3" y="14" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="2"/><rect x="14" y="14" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="2"/></svg></div>
+          <h3>Siloed systems</h3>
+          <p>Each department runs a separate platform. Data doesn't flow, so no one sees the full picture of a vessel's service status.</p>
+        </div>
+        <div class="prob reveal">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none"><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/></svg></div>
+          <h3>Manual planning hubs</h3>
+          <p>Servicing is coordinated by hand through central hubs. Bookings wait on staff availability, adding delays at every step.</p>
+        </div>
+        <div class="prob reveal">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none"><path d="M12 9v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="16.5" r="1.2" fill="currentColor"/><path d="M10.3 3.9 2.5 18a2 2 0 0 0 1.7 3h15.6a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></div>
+          <h3>Missed deadlines</h3>
+          <p>Certificates expire on fixed cycles. A single missed date means fines, detained vessels and costly emergency servicing.</p>
+        </div>
+        <div class="prob reveal">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none"><path d="M3 17l5-5 4 3 8-8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 7v5M21 7h-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <h3>Unpredictable load</h3>
+          <p>Stations face feast-or-famine demand and last-minute requests, making it impossible to plan technicians and spare parts.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== HOW IT WORKS ===================== -->
+  <section class="section how" id="how">
+    <div class="container">
+      <div class="section-head center">
+        <span class="eyebrow">How it works</span>
+        <h2>Sense → Predict → Book → Service.</h2>
+        <p>One connected loop that runs 24/7/365 in the background, turning live data into a confirmed appointment before anyone has to ask.</p>
+      </div>
+      <div class="steps">
+        <div class="step reveal">
+          <span class="num">STEP 01</span>
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2a4 4 0 0 1 4 4v6a4 4 0 0 1-8 0V6a4 4 0 0 1 4-4Z" stroke="currentColor" stroke-width="2"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+          <h3>Sense</h3>
+          <p>Onboard sensors stream raft health — CO₂, temperature, humidity and GPS — while it sits on the rack, no manual inspection needed.</p>
+        </div>
+        <div class="step reveal">
+          <span class="num">STEP 02</span>
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none"><path d="M4 19V5m0 14h16M8 15l3-4 3 2 4-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <h3>Predict</h3>
+          <p>Pulse matches each vessel's live position and expiring certificate against global port availability to find the optimal service window.</p>
+        </div>
+        <div class="step reveal">
+          <span class="num">STEP 03</span>
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="16" rx="2" stroke="currentColor" stroke-width="2"/><path d="M3 9h18M8 3v4M16 3v4M9 14l2 2 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <h3>Book</h3>
+          <p>The platform reaches out to the customer with a ready-made appointment at the predicted harbour — confirmed in a tap, not a phone chain.</p>
+        </div>
+        <div class="step reveal">
+          <span class="num">STEP 04</span>
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4l-6 6a1.5 1.5 0 0 0 0 2.1l.9.9a1.5 1.5 0 0 0 2.1 0l6-6a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.1-2.1 1.6-3.9Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></div>
+          <h3>Service</h3>
+          <p>Stations receive balanced, forecasted workloads with parts pre-staged, so technicians spend time servicing — not chasing schedules.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FEATURES ===================== -->
+  <section class="section" id="features">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">The platform</span>
+        <h2>One platform across every department.</h2>
+        <p>Pulse replaces the patchwork of disconnected tools with a single source of truth — from the sensor on the raft to the invoice on the desk.</p>
+      </div>
+      <div class="feat-grid">
+        <div class="feat reveal">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none"><path d="M4 19V5m0 14h16M8 15l3-4 3 2 4-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <h3>Predictive maintenance</h3>
+          <p>Live sensor data flags drift before failure, so servicing happens at the most opportune moment — not on a rigid calendar.</p>
+        </div>
+        <div class="feat reveal">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="16" rx="2" stroke="currentColor" stroke-width="2"/><path d="M3 9h18M8 3v4M16 3v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+          <h3>Automated booking engine</h3>
+          <p>Vessels are matched to ports and slots automatically; customers confirm a proposed appointment instead of starting from scratch.</p>
+        </div>
+        <div class="feat reveal">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18" stroke="currentColor" stroke-width="1.6"/></svg></div>
+          <h3>Live fleet monitoring</h3>
+          <p>A real-time global map of every tracked vessel, its position, certificate status and the nearest capable station.</p>
+        </div>
+        <div class="feat reveal">
+          <span class="chip">SOLAS</span>
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3l8 3v5c0 5-3.4 8.6-8 10-4.6-1.4-8-5-8-10V6l8-3Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <h3>Compliance records</h3>
+          <p>Every service is logged into an auditable trail authorities and class societies can trace — no more scattered paperwork.</p>
+        </div>
+        <div class="feat reveal">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none"><path d="M20 7 12 3 4 7l8 4 8-4Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M4 7v10l8 4 8-4V7M12 11v10" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></div>
+          <h3>Spare-parts integration</h3>
+          <p>Booking ties straight into inventory, so the right components are reserved and pre-staged before the raft arrives.</p>
+        </div>
+        <div class="feat reveal">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2v4M12 18v4M2 12h4M18 12h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/></svg></div>
+          <h3>Emergency SOS &amp; GPS</h3>
+          <p>If a raft is ever deployed, the same sensors broadcast an SOS with GPS coordinates to speed up rescue response.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== SHOWCASE / DASHBOARD ===================== -->
+  <section class="section showcase">
+    <div class="container grid">
+      <div class="reveal">
+        <span class="eyebrow" style="color:var(--cyan-300)">The control center</span>
+        <h2>See the whole fleet breathe.</h2>
+        <p>The Pulse dashboard gives planners one screen for everything: which certificates are about to expire, which vessels are nearby, and the slot the system already proposed.</p>
+        <ul class="feature-list">
+          <li><span class="tick"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span> Certificates ranked by urgency, color-coded by risk</li>
+          <li><span class="tick"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span> One-click auto-booking at the predicted harbour</li>
+          <li><span class="tick"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span> Station capacity and technician load at a glance</li>
+        </ul>
+        <a href="dashboard.html" class="btn btn-primary" style="margin-top:8px">Open the interactive demo →</a>
+      </div>
+      <div class="preview-frame reveal">
+        <div class="preview-top"><i></i><i></i><i></i><span>pulse.viking-life.com / planner</span></div>
+        <div class="preview-body">
+          <div class="pv-kpi"><span>Tracked vessels</span><b>1,284</b><span class="up">▲ live</span></div>
+          <div class="pv-kpi"><span>Expiring ≤ 30d</span><b style="color:#ff8a96">47</b><span class="up" style="color:#ff8a96">action needed</span></div>
+          <div class="pv-kpi"><span>Auto-booked</span><b style="color:#6ee3b6">38</b><span class="up">this week</span></div>
+          <div class="pv-row"><div class="l"><span class="flag"></span> MV Nordkapp · 9d to expiry</div><span class="mini-tag r">Esbjerg · 14 Jul</span></div>
+          <div class="pv-row"><div class="l"><span class="flag"></span> Stena Baltica · 22d to expiry</div><span class="mini-tag g">Confirmed</span></div>
+          <div class="pv-row"><div class="l"><span class="flag"></span> Fjord Cat · 27d to expiry</div><span class="mini-tag g">Confirmed</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== STAKEHOLDERS ===================== -->
+  <section class="section" id="stakeholders">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">For your team</span>
+        <h2>Value for everyone in the loop.</h2>
+        <p>From the fleet manager tracking expiry dates to the authority auditing records — Pulse is built around real stakeholder needs.</p>
+      </div>
+
+      <div class="tabs" id="tabs">
+        <button class="tab-btn active" data-tab="owners">Ship owners &amp; fleet managers</button>
+        <button class="tab-btn" data-tab="stations">VIKING planners &amp; technicians</button>
+        <button class="tab-btn" data-tab="auth">Authorities &amp; class societies</button>
+        <button class="tab-btn" data-tab="admin">VIKING administration</button>
+      </div>
+
+      <div class="tab-panel active" data-panel="owners">
+        <div class="persona">
+          <h3>Ship owners &amp; safety managers</h3>
+          <span class="role">Keep every vessel compliant and ready to sail</span>
+          <div class="block"><h4>Needs</h4><p>A simple way to stay on top of certifications, expiry dates and service schedules across an entire fleet — without spreadsheets.</p></div>
+          <div class="block"><h4>Frustrations</h4>
+            <div class="pains"><span>Manual tracking</span><span>Scattered info</span><span>Missed deadlines</span><span>Fines &amp; downtime</span></div>
+          </div>
+        </div>
+        <div class="value-card">
+          <h4>What Pulse delivers</h4>
+          <ul>
+            <li><span class="tick"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span> A single dashboard of every vessel's compliance status</li>
+            <li><span class="tick"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span> Proactive alerts long before a certificate expires</li>
+            <li><span class="tick"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span> Appointments proposed automatically — just confirm</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="tab-panel" data-panel="stations">
+        <div class="persona">
+          <h3>Station planners &amp; technicians</h3>
+          <span class="role">Plan and perform life-raft servicing</span>
+          <div class="block"><h4>Needs</h4><p>Accurate forecasts of workload and incoming demand so technicians and spare parts can be allocated efficiently.</p></div>
+          <div class="block"><h4>Frustrations</h4>
+            <div class="pains"><span>Unpredictable bookings</span><span>Last-minute requests</span><span>No-shows</span><span>Idle capacity</span></div>
+          </div>
+        </div>
+        <div class="value-card">
+          <h4>What Pulse delivers</h4>
+          <ul>
+            <li><span class="tick"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span> Demand forecasts that smooth out feast-or-famine weeks</li>
+            <li><span class="tick"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span> Balanced technician workloads, planned days ahead</li>
+            <li><span class="tick"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span> Parts auto-reserved the moment a booking lands</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="tab-panel" data-panel="auth">
+        <div class="persona">
+          <h3>Authorities &amp; class societies</h3>
+          <span class="role">Verify SOLAS and maritime safety compliance</span>
+          <div class="block"><h4>Needs</h4><p>Transparent, accurate and auditable servicing records that can be traced for any vessel at any time.</p></div>
+          <div class="block"><h4>Frustrations</h4>
+            <div class="pains"><span>Incomplete docs</span><span>Hard to trace history</span><span>Paper trails</span></div>
+          </div>
+        </div>
+        <div class="value-card">
+          <h4>What Pulse delivers</h4>
+          <ul>
+            <li><span class="tick"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span> A complete, tamper-evident service history per raft</li>
+            <li><span class="tick"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span> Instant, exportable compliance reports</li>
+            <li><span class="tick"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span> Full traceability from sensor reading to certificate</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="tab-panel" data-panel="admin">
+        <div class="persona">
+          <h3>VIKING administration</h3>
+          <span class="role">Run the servicing business efficiently</span>
+          <div class="block"><h4>Needs</h4><p>Better forecasting, higher resource utilisation, stronger customer retention and stable, predictable revenue.</p></div>
+          <div class="block"><h4>Frustrations</h4>
+            <div class="pains"><span>Inefficient scheduling</span><span>Underused capacity</span><span>Missed opportunities</span></div>
+          </div>
+        </div>
+        <div class="value-card">
+          <h4>What Pulse delivers</h4>
+          <ul>
+            <li><span class="tick"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span> One connected platform replacing siloed tools</li>
+            <li><span class="tick"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span> Higher utilisation and fewer empty service bays</li>
+            <li><span class="tick"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span> Data-driven decisions across the whole network</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== IMPACT ===================== -->
+  <section class="section impact" id="impact">
+    <div class="container">
+      <div class="section-head center">
+        <span class="eyebrow">The opportunity</span>
+        <h2>Small savings per booking. Massive at fleet scale.</h2>
+        <p>VIKING services over 100,000 life rafts a year. Trim minutes and downtime from each one, and the impact compounds across the entire global network.</p>
+      </div>
+      <div class="impact-grid">
+        <div class="impact-card reveal">
+          <div class="big">100k<small>+</small></div>
+          <h3>Life rafts serviced / year</h3>
+          <p>Across 280+ stations and 800+ technicians. Every efficiency multiplies across enormous volume.</p>
+        </div>
+        <div class="impact-card reveal">
+          <div class="big">24/7</div>
+          <h3>Always-on matching</h3>
+          <p>The engine never sleeps — continuously pairing live ship positions with expiring certificates and open capacity.</p>
+        </div>
+        <div class="impact-card reveal">
+          <div class="big">♻︎</div>
+          <h3>A lighter footprint</h3>
+          <p>Fewer unnecessary trips, no travel just to handle bookings, and servicing timed to the raft's real condition — not a rigid calendar.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CTA ===================== -->
+  <section class="cta section" id="cta">
+    <div class="container">
+      <div class="cta-box reveal">
+        <h2>Pilot it where VIKING is strongest.</h2>
+        <p>Start with VIKING-owned stations in Denmark and the Nordics, prove the model, then scale across the global network.</p>
+        <div class="cta-actions">
+          <a href="dashboard.html" class="btn btn-primary">Launch the live dashboard</a>
+          <button class="btn btn-light" data-pilot>Request a pilot</button>
+        </div>
+        <p class="cta-note">A concept platform for the future of life-raft maintenance planning · VIKING Life-Saving Equipment, Esbjerg</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <a class="brand" href="#top">
+            <span class="mark"><svg viewBox="0 0 24 24" fill="none"><path d="M3 7h18M3 12h18M3 17h18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><circle cx="17" cy="7" r="2" fill="#ff7a33"/></svg></span>
+            VIKING&nbsp;<b style="color:var(--orange)">Pulse</b>
+          </a>
+          <p>Connected, automated booking and predictive maintenance for the world's life rafts.</p>
+        </div>
+        <div>
+          <h5>Platform</h5>
+          <ul>
+            <li><a href="#how">How it works</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="dashboard.html">Live dashboard</a></li>
+            <li><a href="#impact">Impact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h5>Stakeholders</h5>
+          <ul>
+            <li><a href="#stakeholders">Ship owners</a></li>
+            <li><a href="#stakeholders">Stations</a></li>
+            <li><a href="#stakeholders">Authorities</a></li>
+            <li><a href="#stakeholders">Administration</a></li>
+          </ul>
+        </div>
+        <div>
+          <h5>Project</h5>
+          <ul>
+            <li><a href="#problem">The opportunity</a></li>
+            <li><a href="#cta">Pilot programme</a></li>
+            <li><a href="#top">Esbjerg, Denmark</a></li>
+            <li><a href="#top">SOLAS compliant</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 VIKING Pulse — concept prototype. Not affiliated with or endorsed by VIKING Life-Saving Equipment.</span>
+        <span>For demonstration purposes only</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===================== PILOT REQUEST MODAL ===================== -->
+  <div class="lm-bg" id="pilotBg">
+    <div class="lm" role="dialog" aria-modal="true" aria-labelledby="pilotTitle">
+      <button class="lm-x" id="pilotClose" aria-label="Close">×</button>
+      <div id="pilotForm">
+        <span class="eyebrow">Pilot programme</span>
+        <h2 id="pilotTitle" style="font-size:26px;margin:10px 0 6px">Bring Pulse to your fleet.</h2>
+        <p style="color:var(--ink-500);margin-bottom:22px">Tell us about your operation and we'll scope a pilot — starting with VIKING-owned stations in Denmark &amp; the Nordics.</p>
+        <form id="pilotFormEl" novalidate>
+          <div class="lm-row">
+            <div class="lm-field"><label>Full name</label><input name="name" type="text" required placeholder="Jane Hansen" /></div>
+            <div class="lm-field"><label>Work email</label><input name="email" type="email" required placeholder="jane@fleet.com" /></div>
+          </div>
+          <div class="lm-row">
+            <div class="lm-field"><label>Company</label><input name="company" type="text" required placeholder="Nordic Shipping A/S" /></div>
+            <div class="lm-field"><label>Vessels in fleet</label>
+              <select name="fleet">
+                <option>1–10</option><option>11–50</option><option>51–200</option><option>200+</option>
+              </select></div>
+          </div>
+          <div class="lm-field"><label>Primary interest</label>
+            <select name="interest">
+              <option>Automated booking</option>
+              <option>Predictive maintenance</option>
+              <option>SOLAS compliance &amp; records</option>
+              <option>Fleet-wide certificate tracking</option>
+              <option>Everything — full platform</option>
+            </select></div>
+          <div class="lm-field"><label>Anything else? (optional)</label>
+            <textarea name="notes" rows="2" placeholder="Tell us about your current process…"></textarea></div>
+          <p class="lm-err" id="pilotErr"></p>
+          <button class="btn btn-primary" type="submit" style="width:100%;margin-top:6px">Request pilot scoping</button>
+          <p style="font-size:12px;color:var(--ink-300);text-align:center;margin-top:12px">Demo form · submissions are saved locally in your browser, nothing is sent.</p>
+        </form>
+      </div>
+      <div id="pilotDone" style="display:none;text-align:center;padding:20px 0">
+        <div class="lm-ring"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <h2 style="font-size:24px;margin-bottom:8px">Request received 🎉</h2>
+        <p style="color:var(--ink-500)" id="pilotDoneMsg">Thanks! A VIKING Pulse specialist will be in touch to scope your pilot.</p>
+        <div style="display:flex;gap:12px;justify-content:center;margin-top:24px">
+          <a href="dashboard.html" class="btn btn-blue">Explore the dashboard</a>
+          <button class="btn btn-light" id="pilotDoneClose">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/app.js"></script>
+</body>
+</html>
