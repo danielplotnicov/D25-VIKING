@@ -22,17 +22,17 @@
         VIKING&nbsp;<b>Pulse</b>
       </a>
       <nav id="nav">
-        <a class="navlink active" data-view="overview" href="#overview"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="8" height="8" rx="2" stroke="currentColor" stroke-width="2"/><rect x="13" y="3" width="8" height="5" rx="2" stroke="currentColor" stroke-width="2"/><rect x="13" y="10" width="8" height="11" rx="2" stroke="currentColor" stroke-width="2"/><rect x="3" y="13" width="8" height="8" rx="2" stroke="currentColor" stroke-width="2"/></svg> Overview</a>
-        <a class="navlink" data-view="fleet" href="#fleet"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18" stroke="currentColor" stroke-width="1.5"/></svg> Live fleet <span class="nav-badge" id="badgeFleet"></span></a>
-        <a class="navlink" data-view="bookings" href="#bookings"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="16" rx="2" stroke="currentColor" stroke-width="2"/><path d="M3 9h18M8 3v4M16 3v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg> Bookings <span class="nav-badge" id="badgeBookings"></span></a>
-        <a class="navlink" data-view="compliance" href="#compliance"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3l8 3v5c0 5-3.4 8.6-8 10-4.6-1.4-8-5-8-10V6l8-3Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg> Compliance</a>
-        <a class="navlink" data-view="parts" href="#parts"><svg viewBox="0 0 24 24" fill="none"><path d="M20 7 12 3 4 7l8 4 8-4ZM4 7v10l8 4 8-4V7" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg> Spare parts <span class="nav-badge warn" id="badgeParts"></span></a>
-        <a class="navlink" data-view="forecast" href="#forecast"><svg viewBox="0 0 24 24" fill="none"><path d="M4 19V5m0 14h16M8 15l3-4 3 2 4-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Forecast</a>
+        <a class="navlink active" data-view="overview" href="#overview"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="8" height="8" rx="2" stroke="currentColor" stroke-width="2"/><rect x="13" y="3" width="8" height="5" rx="2" stroke="currentColor" stroke-width="2"/><rect x="13" y="10" width="8" height="11" rx="2" stroke="currentColor" stroke-width="2"/><rect x="3" y="13" width="8" height="8" rx="2" stroke="currentColor" stroke-width="2"/></svg> <span data-i18n="side.overview">Overview</span></a>
+        <a class="navlink" data-view="fleet" href="#fleet"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18" stroke="currentColor" stroke-width="1.5"/></svg> <span data-i18n="side.fleet">Live fleet</span> <span class="nav-badge" id="badgeFleet"></span></a>
+        <a class="navlink" data-view="bookings" href="#bookings"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="16" rx="2" stroke="currentColor" stroke-width="2"/><path d="M3 9h18M8 3v4M16 3v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg> <span data-i18n="side.bookings">Bookings</span> <span class="nav-badge" id="badgeBookings"></span></a>
+        <a class="navlink" data-view="compliance" href="#compliance"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3l8 3v5c0 5-3.4 8.6-8 10-4.6-1.4-8-5-8-10V6l8-3Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg> <span data-i18n="side.compliance">Compliance</span></a>
+        <a class="navlink" data-view="parts" href="#parts"><svg viewBox="0 0 24 24" fill="none"><path d="M20 7 12 3 4 7l8 4 8-4ZM4 7v10l8 4 8-4V7" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg> <span data-i18n="side.parts">Spare parts</span> <span class="nav-badge warn" id="badgeParts"></span></a>
+        <a class="navlink" data-view="forecast" href="#forecast"><svg viewBox="0 0 24 24" fill="none"><path d="M4 19V5m0 14h16M8 15l3-4 3 2 4-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> <span data-i18n="side.forecast">Forecast</span></a>
       </nav>
       <div class="side-foot">
-        Prototype · data simulated &amp; saved locally.<br />
-        <button class="link-btn" id="resetBtn">↺ Reset demo data</button><br />
-        <a href="index.html">← Back to overview site</a>
+        <span data-i18n="side.foot">Prototype · data simulated &amp; saved locally.</span><br />
+        <button class="link-btn" id="resetBtn" data-i18n="side.reset">↺ Reset demo data</button><br />
+        <a href="index.html" data-i18n="side.back">← Back to overview site</a>
       </div>
     </aside>
 
@@ -44,7 +44,10 @@
           <div class="sub" id="viewSub">Esbjerg HQ · global network · <span id="clock">--:--:--</span></div>
         </div>
         <div class="right">
-          <span class="live-pill"><span class="dot"></span> Live matching active</span>
+          <select class="lang-select" aria-label="Language">
+            <option value="en">EN</option><option value="da">DA</option><option value="es">ES</option><option value="zh">中文</option><option value="ar">ع</option>
+          </select>
+          <span class="live-pill"><span class="dot"></span> <span data-i18n="top.live">Live matching active</span></span>
           <div class="avatar">VP</div>
         </div>
       </header>
@@ -58,8 +61,8 @@
             <div style="display:flex;flex-direction:column;gap:18px">
               <div class="card map-card">
                 <div class="card-head">
-                  <h3>Live fleet map</h3>
-                  <span class="hint">hover a vessel · ● compliant ● expiring ● critical</span>
+                  <h3 data-i18n="card.map">Live fleet map</h3>
+                  <span class="hint" data-i18n="card.mapHint">hover a vessel · ● compliant ● expiring ● critical</span>
                 </div>
                 <div class="dash-map" id="dashMap">
                   <svg viewBox="0 0 760 360" id="mapSvg" aria-hidden="true">
@@ -73,14 +76,14 @@
                   <div class="tip" id="mapTip"></div>
                 </div>
                 <div class="map-legend">
-                  <span><i style="background:#38bdf8"></i>Compliant</span>
-                  <span><i style="background:#ffb020"></i>Expiring ≤ 30d</span>
-                  <span><i style="background:#e6394a"></i>Critical ≤ 10d</span>
+                  <span><i style="background:#38bdf8"></i><span data-i18n="legend.compliant">Compliant</span></span>
+                  <span><i style="background:#ffb020"></i><span data-i18n="legend.expiring">Expiring ≤ 30d</span></span>
+                  <span><i style="background:#e6394a"></i><span data-i18n="legend.critical">Critical ≤ 10d</span></span>
                   <span style="margin-left:auto;color:#6f86a0" id="mapMeta"></span>
                 </div>
               </div>
               <div class="card">
-                <div class="card-head"><h3>Demand forecast — next 7 days</h3><span class="hint">Esbjerg station · rafts/day</span></div>
+                <div class="card-head"><h3 data-i18n="card.forecast">Demand forecast — next 7 days</h3><span class="hint" data-i18n="card.forecastHint">Esbjerg station · rafts/day</span></div>
                 <div class="forecast"><div class="spark" id="spark"></div>
                   <div class="spark-x"><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span></div>
                 </div>
@@ -88,15 +91,19 @@
             </div>
             <div style="display:flex;flex-direction:column;gap:18px">
               <div class="card">
-                <div class="card-head"><h3>Expiring certificates</h3><span class="hint">sorted by urgency</span></div>
+                <div class="card-head"><h3 data-i18n="card.queue">Expiring certificates</h3><span class="hint" data-i18n="card.queueHint">sorted by urgency</span></div>
+                <div class="bulk-actions">
+                  <button class="btn-xs book" id="bulkCrit" data-i18n="btn.bulkcrit">Auto-book all critical</button>
+                  <button class="btn-xs ghost" id="bulkExp" data-i18n="btn.bulkexp">Auto-book all expiring</button>
+                </div>
                 <div class="queue" id="queue"></div>
               </div>
               <div class="card">
-                <div class="card-head"><h3>Station capacity</h3><span class="hint">this week</span></div>
+                <div class="card-head"><h3 data-i18n="card.cap">Station capacity</h3><span class="hint" data-i18n="card.capHint">this week</span></div>
                 <div class="cap" id="cap"></div>
               </div>
               <div class="card">
-                <div class="card-head"><h3>Live activity</h3><span class="hint">auto-matching engine</span></div>
+                <div class="card-head"><h3 data-i18n="card.feed">Live activity</h3><span class="hint" data-i18n="card.feedHint">auto-matching engine</span></div>
                 <div class="feed" id="feed"></div>
               </div>
             </div>
@@ -108,25 +115,25 @@
           <div class="toolbar">
             <div class="search">
               <svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="m20 20-3-3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-              <input id="fleetSearch" type="text" placeholder="Search vessel, type or flag…" />
+              <input id="fleetSearch" type="text" data-i18n-ph="search.ph" placeholder="Search vessel, type or flag…" />
             </div>
             <div class="chips" id="fleetFilters">
-              <button class="chip-f active" data-f="all">All</button>
-              <button class="chip-f" data-f="crit">Critical</button>
-              <button class="chip-f" data-f="warn">Expiring</button>
-              <button class="chip-f" data-f="ok">Compliant</button>
-              <button class="chip-f" data-f="booked">Booked</button>
+              <button class="chip-f active" data-f="all" data-i18n="chip.all">All</button>
+              <button class="chip-f" data-f="crit" data-i18n="chip.crit">Critical</button>
+              <button class="chip-f" data-f="warn" data-i18n="chip.warn">Expiring</button>
+              <button class="chip-f" data-f="ok" data-i18n="chip.ok">Compliant</button>
+              <button class="chip-f" data-f="booked" data-i18n="chip.booked">Booked</button>
             </div>
           </div>
           <div class="card table-card">
             <div class="table-scroll">
               <table class="dtable" id="fleetTable">
                 <thead><tr>
-                  <th data-sort="name">Vessel</th><th data-sort="type">Type</th>
-                  <th data-sort="flag">Flag</th><th data-sort="region">Region</th>
-                  <th data-sort="rafts" class="num">Rafts</th>
-                  <th data-sort="certDays" class="num">Cert expiry</th>
-                  <th>Status</th><th></th>
+                  <th data-sort="name" data-i18n="th.vessel">Vessel</th><th data-sort="type" data-i18n="th.type">Type</th>
+                  <th data-sort="flag" data-i18n="th.flag">Flag</th><th data-sort="region" data-i18n="th.region">Region</th>
+                  <th data-sort="rafts" class="num" data-i18n="th.rafts">Rafts</th>
+                  <th data-sort="certDays" class="num" data-i18n="th.expiry">Cert expiry</th>
+                  <th data-i18n="th.status">Status</th><th></th>
                 </tr></thead>
                 <tbody id="fleetBody"></tbody>
               </table>
@@ -138,12 +145,12 @@
         <section class="view" data-view="bookings">
           <div class="toolbar">
             <div class="chips" id="bookFilters">
-              <button class="chip-f active" data-f="upcoming">Upcoming</button>
-              <button class="chip-f" data-f="completed">Completed</button>
-              <button class="chip-f" data-f="cancelled">Cancelled</button>
-              <button class="chip-f" data-f="all">All</button>
+              <button class="chip-f active" data-f="upcoming" data-i18n="chip.upcoming">Upcoming</button>
+              <button class="chip-f" data-f="completed" data-i18n="chip.completed">Completed</button>
+              <button class="chip-f" data-f="cancelled" data-i18n="chip.cancelled">Cancelled</button>
+              <button class="chip-f" data-f="all" data-i18n="chip.all">All</button>
             </div>
-            <button class="btn btn-primary" id="newBookingBtn" style="padding:10px 16px">+ New booking</button>
+            <button class="btn btn-primary" id="newBookingBtn" style="padding:10px 16px" data-i18n="btn.newbooking">+ New booking</button>
           </div>
           <div id="bookingsWrap"></div>
         </section>
@@ -152,19 +159,19 @@
         <section class="view" data-view="compliance">
           <div class="toolbar">
             <div class="chips" id="compFilters">
-              <button class="chip-f active" data-f="all">All vessels</button>
-              <button class="chip-f" data-f="crit">At risk</button>
-              <button class="chip-f" data-f="serviced">Recently serviced</button>
+              <button class="chip-f active" data-f="all" data-i18n="chip.allv">All vessels</button>
+              <button class="chip-f" data-f="crit" data-i18n="chip.atrisk">At risk</button>
+              <button class="chip-f" data-f="serviced" data-i18n="chip.serviced">Recently serviced</button>
             </div>
-            <button class="btn btn-light" id="exportBtn" style="padding:10px 16px">⤓ Export audit (CSV)</button>
+            <button class="btn btn-light" id="exportBtn" style="padding:10px 16px" data-i18n="btn.export">⤓ Export audit (CSV)</button>
           </div>
           <div class="comp-summary" id="compSummary"></div>
           <div class="card table-card">
             <div class="table-scroll">
               <table class="dtable" id="compTable">
                 <thead><tr>
-                  <th>Vessel</th><th>IMO</th><th>Last service</th>
-                  <th class="num">Cert valid for</th><th>SOLAS status</th><th>Certificate</th>
+                  <th data-i18n="th.vessel">Vessel</th><th data-i18n="th.imo">IMO</th><th data-i18n="th.lastservice">Last service</th>
+                  <th class="num" data-i18n="th.certvalid">Cert valid for</th><th data-i18n="th.solas">SOLAS status</th><th data-i18n="th.cert">Certificate</th>
                 </tr></thead>
                 <tbody id="compBody"></tbody>
               </table>
@@ -177,8 +184,8 @@
           <div id="partsAlert"></div>
           <div class="parts-grid" id="partsGrid"></div>
           <div class="card" style="margin-top:18px">
-            <div class="card-head"><h3>How parts link to bookings</h3><span class="hint">auto-reserved on booking</span></div>
-            <p class="muted">When a service is auto-booked, Pulse instantly reserves the right components per raft
+            <div class="card-head"><h3 data-i18n="parts.explainTitle">How parts link to bookings</h3><span class="hint" data-i18n="parts.explainHint">auto-reserved on booking</span></div>
+            <p class="muted" data-i18n="parts.explain">When a service is auto-booked, Pulse instantly reserves the right components per raft
             (CO₂ cylinders, hydrostatic release units, flare sets, ration packs) plus per-booking consumables.
             Reserved stock is committed; completing a service consumes it; cancelling releases it back.</p>
           </div>
@@ -187,7 +194,7 @@
         <!-- ===== FORECAST ===== -->
         <section class="view" data-view="forecast">
           <div class="card" style="margin-bottom:18px">
-            <div class="card-head"><h3>Network demand vs. capacity</h3><span class="hint">next 14 days · rafts</span></div>
+            <div class="card-head"><h3 data-i18n="fc.title">Network demand vs. capacity</h3><span class="hint" data-i18n="fc.hint">next 14 days · rafts</span></div>
             <div id="forecastChart"></div>
           </div>
           <div class="parts-grid" id="stationCards"></div>
@@ -203,9 +210,10 @@
   <!-- ============ TOAST ============ -->
   <div class="toast" id="toast">
     <svg viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    <span id="toastMsg">Booking confirmed</span>
+    <span id="toastMsg"></span>
   </div>
 
+  <script src="assets/i18n.js"></script>
   <script src="assets/store.js"></script>
   <script src="assets/dashboard.js"></script>
 </body>

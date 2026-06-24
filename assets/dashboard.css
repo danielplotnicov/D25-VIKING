@@ -407,3 +407,15 @@ body.dash {
   .modal, .modal-bg .modal { border-radius: 14px; }
   .booking .b-actions .btn-xs { flex: 1 1 auto; text-align: center; }
 }
+
+/* bulk auto-book buttons in the expiring-certificates card */
+.bulk-actions { display: flex; gap: 8px; flex-wrap: wrap; margin: 0 0 12px; }
+
+/* language selector on the dark topbar */
+.dash .lang-select { background: rgba(255,255,255,.06); color: #cdddec; border-color: rgba(255,255,255,.16); }
+.dash .lang-select:hover { border-color: var(--cyan-400); }
+.dash .lang-select option { background: #0d2742; color: #cdddec; }
+
+/* RTL tweaks for the dashboard */
+[dir="rtl"] .side { direction: rtl; }
+[dir="rtl"] .map-legend span:last-child { margin-left: 0; margin-right: auto; }

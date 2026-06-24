@@ -179,10 +179,11 @@
       const data = Object.fromEntries(new FormData(formEl).entries());
       // validation
       formEl.querySelectorAll(".bad").forEach((el) => el.classList.remove("bad"));
+      const T = (k, p) => (window.I18N ? window.I18N.t(k, p) : k);
       const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email || "");
-      if (!data.name.trim()) return fail("name", "Please enter your name.");
-      if (!emailOk) return fail("email", "Please enter a valid work email.");
-      if (!data.company.trim()) return fail("company", "Please enter your company.");
+      if (!data.name.trim()) return fail("name", T("pilot.errname"));
+      if (!emailOk) return fail("email", T("pilot.erremail"));
+      if (!data.company.trim()) return fail("company", T("pilot.errcompany"));
 
       // "submit" — persist locally so it's demonstrably functional
       try {
@@ -193,7 +194,7 @@
       } catch (_) {}
 
       document.getElementById("pilotDoneMsg").textContent =
-        `Thanks, ${data.name.split(" ")[0]}! A VIKING Pulse specialist will reach out to ${data.email} to scope your ${data.fleet}-vessel pilot.`;
+        T("pilot.donemsgp", { name: data.name.split(" ")[0], email: data.email, fleet: data.fleet });
       formWrap.style.display = "none";
       doneWrap.style.display = "block";
     });

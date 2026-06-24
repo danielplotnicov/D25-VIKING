@@ -93,9 +93,9 @@ window.Pulse = (function () {
       parts: SEED_PARTS.map((p) => ({ ...p })),
       bookings: [],
       activity: [
-        { c: "#38bdf8", t: "Sensor sync complete · 1,284 rafts reporting", ts: Date.now() - 120000 },
-        { c: "#ffb020", t: "Baltic Pearl certificate entered 14-day window", ts: Date.now() - 660000 },
-        { c: "#38bdf8", t: "Rotterdam capacity updated → 94%", ts: Date.now() - 2400000 },
+        { k: "act.seedSync", p: {}, c: "#38bdf8", ts: Date.now() - 120000 },
+        { k: "act.seedCertWindow", p: { vessel: "Baltic Pearl" }, c: "#ffb020", ts: Date.now() - 660000 },
+        { k: "act.seedCapacity", p: { port: "Rotterdam", pct: 94 }, c: "#38bdf8", ts: Date.now() - 2400000 },
       ],
     };
   }
@@ -155,38 +155,66 @@ window.Pulse = (function () {
   }
 
   /* ---------- actions ---------- */
-  function logActivity(t, c) {
-    state.activity.unshift({ c: c || "#22c08a", t, ts: Date.now() });
+  // activity entries are stored as { k: translationKey, p: params, c: color, ts }
+  function logActivity(k, p, c) {
+    state.activity.unshift({ k, p: p || {}, c: c || "#22c08a", ts: Date.now() });
     state.activity = state.activity.slice(0, 40);
   }
 
-  function createBooking({ vesselId, date, time, bay, stationId }) {
+  // create a booking WITHOUT logging/emitting (reused by createBooking + bulkAutoBook)
+  function _book({ vesselId, date, time, bay, stationId }) {
     const v = vesselById(vesselId);
     if (!v || v.bookingId) return null;
     const station = stationById(stationId || v.stationId);
     const parts = partsNeeded(v.rafts);
-    // reserve parts
     Object.entries(parts).forEach(([sku, qty]) => {
       const p = partBySku(sku);
       if (p) p.reserved += qty;
     });
     const b = {
       id: "B" + (2000 + state.seq++),
-      vesselId: v.id,
-      vesselName: v.name,
-      rafts: v.rafts,
-      stationId: station.id,
-      port: station.name,
-      date, time, bay,
-      parts,
-      status: "upcoming",
-      createdAt: Date.now(),
+      vesselId: v.id, vesselName: v.name, rafts: v.rafts,
+      stationId: station.id, port: station.name,
+      date, time, bay, parts,
+      status: "upcoming", createdAt: Date.now(),
     };
     state.bookings.unshift(b);
     v.bookingId = b.id;
-    logActivity(`<b>${v.name}</b> auto-booked at ${station.name} — ${date} ${time}`, "#22c08a");
-    emit();
     return b;
+  }
+
+  function createBooking(args) {
+    const b = _book(args);
+    if (b) {
+      logActivity("act.autobook", { vessel: b.vesselName, port: b.port, date: b.date, time: b.time }, "#22c08a");
+      emit();
+    }
+    return b;
+  }
+
+  // a sensible default service slot for a vessel (used by bulk auto-book)
+  function fmtShort(d) { return new Date(d).toLocaleDateString("en-GB", { day: "2-digit", month: "short" }); }
+  function defaultSlot(v) {
+    return { date: fmtShort(Date.now() + Math.max(1, v.certDays - 4) * DAY), time: "09:00", bay: "Bay 1" };
+  }
+
+  // auto-book every unbooked vessel within scope. scope: "crit" (<=10d) or "expiring" (<=30d, includes critical)
+  function bulkAutoBook(scope) {
+    const limit = scope === "crit" ? 10 : 30;
+    const targets = state.vessels
+      .filter((v) => !v.bookingId && v.certDays <= limit)
+      .sort((a, b) => a.certDays - b.certDays);
+    const made = [];
+    targets.forEach((v) => {
+      const s = defaultSlot(v);
+      const b = _book({ vesselId: v.id, date: s.date, time: s.time, bay: s.bay, stationId: v.stationId });
+      if (b) made.push(b);
+    });
+    if (made.length) {
+      logActivity("act.bulk", { n: made.length, scope: scope === "crit" ? "critical" : "expiring" }, "#22c08a");
+      emit();
+    }
+    return made;
   }
 
   function cancelBooking(bookingId) {
@@ -200,15 +228,22 @@ window.Pulse = (function () {
     b.status = "cancelled";
     const v = vesselById(b.vesselId);
     if (v) v.bookingId = null;
-    logActivity(`Booking for <b>${b.vesselName}</b> cancelled — parts released`, "#e6394a");
+    logActivity("act.cancel", { vessel: b.vesselName }, "#e6394a");
     emit();
   }
 
-  function rescheduleBooking(bookingId, date, time) {
+  // reschedule date/time and optionally move to a different station/port (relieves overcrowding)
+  function rescheduleBooking(bookingId, date, time, stationId) {
     const b = state.bookings.find((x) => x.id === bookingId);
     if (!b || b.status !== "upcoming") return;
     b.date = date; b.time = time;
-    logActivity(`<b>${b.vesselName}</b> rescheduled to ${date} ${time}`, "#38bdf8");
+    let moved = false;
+    if (stationId && stationId !== b.stationId) {
+      const st = stationById(stationId);
+      if (st) { b.stationId = st.id; b.port = st.name; moved = true; }
+    }
+    if (moved) logActivity("act.move", { vessel: b.vesselName, port: b.port, date, time }, "#38bdf8");
+    else logActivity("act.reschedule", { vessel: b.vesselName, date, time }, "#38bdf8");
     emit();
   }
 
@@ -230,15 +265,16 @@ window.Pulse = (function () {
       v.lastService = new Date().toISOString().slice(0, 10);
       v.certId = "VK-" + b.id + "-" + new Date().getFullYear();
     }
-    logActivity(`<b>${b.vesselName}</b> service completed — new SOLAS certificate issued`, "#22c08a");
+    logActivity("act.complete", { vessel: b.vesselName }, "#22c08a");
     emit();
   }
 
   function reorderPart(sku, qty) {
     const p = partBySku(sku);
     if (!p) return;
-    p.stock += qty || (p.reorder * 2);
-    logActivity(`Reorder received: <b>${p.name}</b> (+${qty || p.reorder * 2})`, "#38bdf8");
+    const amount = qty || p.reorder * 2;
+    p.stock += amount;
+    logActivity("act.reorder", { part: p.name, qty: amount }, "#38bdf8");
     emit();
   }
 
@@ -263,6 +299,6 @@ window.Pulse = (function () {
     sev, sevColor, sevLabel,
     expiryDate: (days) => new Date(Date.now() + days * DAY).toISOString().slice(0, 10),
     // actions
-    createBooking, cancelBooking, rescheduleBooking, completeBooking, reorderPart, reset, logActivity, emit,
+    createBooking, bulkAutoBook, cancelBooking, rescheduleBooking, completeBooking, reorderPart, reset, logActivity, emit,
   };
 })();

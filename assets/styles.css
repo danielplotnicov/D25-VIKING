@@ -113,7 +113,19 @@ h1, h2, h3 { color: var(--ink-900); line-height: 1.12; letter-spacing: -.02em; f
 .nav-links a:hover { color: var(--blue-600); }
 .nav-cta { display: flex; align-items: center; gap: 14px; }
 .nav-menu-cta { display: none; } /* only shown inside the open mobile menu */
+.lang-select {
+  font: inherit; font-size: 13px; font-weight: 700; color: var(--ink-700);
+  background: #fff; border: 1px solid var(--line); border-radius: 9px;
+  padding: 7px 8px; cursor: pointer; transition: .15s;
+}
+.lang-select:hover { border-color: var(--blue-500); }
+.lang-select:focus { outline: 0; box-shadow: 0 0 0 3px rgba(30,122,224,.15); }
 .nav-toggle { display: none; background: none; border: 0; cursor: pointer; }
+
+/* ---- minimal RTL (Arabic) ---- */
+[dir="rtl"] .eyebrow::before { margin-left: 8px; margin-right: 0; }
+[dir="rtl"] .hero p.lead, [dir="rtl"] .section-head p { text-align: right; }
+[dir="rtl"] .nav-links.open { text-align: right; }
 
 /* =========================================================
    HERO
